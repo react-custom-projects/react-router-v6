@@ -1,3 +1,5 @@
+export const getLoginPageUrl = () => '/login';
+
 export const getHomePageUrl = () => 'home';
 
 export const getAboutPageUrl = () => 'about';

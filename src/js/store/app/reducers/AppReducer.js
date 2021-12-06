@@ -1,9 +1,21 @@
+//action types
+import { SET_APP_IS_LOGGED_IN_TRUE, SET_APP_IS_LOGGED_IN_FALSE } from '../appActionTypes';
+//constants
 import { updateObject } from '../../../constants/Helpers';
+import LocalStorageManager from './../../../managers/LocalStorageManger';
 
-const initialState = {};
+const initialState = {
+	isLoggedIn: LocalStorageManager.getItem('token') !== null,
+};
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
+		case SET_APP_IS_LOGGED_IN_TRUE: {
+			return updateObject(state, { isLoggedIn: true });
+		}
+		case SET_APP_IS_LOGGED_IN_FALSE: {
+			return updateObject(state, { isLoggedIn: false });
+		}
 		default:
 			return state;
 	}

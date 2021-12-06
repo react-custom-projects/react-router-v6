@@ -1,42 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-//replace the following with your own selectors
-import { getUserPermissionsList } from '../../store/app/selectors/AppSelectors';
+import { Navigate } from 'react-router-dom';
+//managers
+import LocalStorageManager from '../../managers/LocalStorageManger';
 //components
 import PermissionsCannotAccess from '../routingComponents/PermissionsCannotAccess';
 
-const RestrictedRoute = ({ component: Component, requiredPermissions, ...rest }) => {
-	const userPermissionsList = useSelector((state) => getUserPermissionsList({ state }));
+const RestrictedRoute = ({ children, requiredPermissions }) => {
+	const userPermissionsList = ['access_home', 'access_user', 'access_products'],
+		location = useLocation();
 
-	return (
-		<Route
-			{...rest}
-			render={(props) => {
-				//revise this
-				if (localStorage.getItem('jwtToken')) {
-					if (Array.isArray(requiredPermissions)) {
-						for (let i = 0; i < requiredPermissions.length; i++) {
-							for (let j = 0; j < userPermissionsList.length; j++) {
-								if (requiredPermissions[i] === userPermissionsList[j])
-									return <Component {...props} />;
-							}
-						}
-					}
-					if (typeof requiredPermissions === 'string') {
-						if (
-							userPermissionsList.findIndex((permission) => permission === requiredPermissions) > -1
-						)
-							return <Component {...props} />;
-					}
-					return <PermissionsCannotAccess requiredPermissions={requiredPermissions} />;
-				} else {
-					return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
+	if (LocalStorageManager.getItem('token')) {
+		if (Array.isArray(requiredPermissions)) {
+			for (let i = 0; i < requiredPermissions.length; i++) {
+				for (let j = 0; j < userPermissionsList.length; j++) {
+					if (requiredPermissions[i] === userPermissionsList[j]) return children;
 				}
-			}}
-		/>
-	);
+			}
+		}
+		if (typeof requiredPermissions === 'string') {
+			if (userPermissionsList.findIndex((permission) => permission === requiredPermissions) > -1)
+				return children;
+		}
+		return <PermissionsCannotAccess requiredPermissions={requiredPermissions} />;
+	} else {
+		return <Navigate replace to={getLoginPageUrl()} state={{ from: location }} />;
+	}
 };
 
 RestrictedRoute.propTypes = {

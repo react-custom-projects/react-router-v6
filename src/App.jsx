@@ -6,7 +6,14 @@ import { ErrorBoundary } from 'react-error-boundary';
 //error boundary fallback
 import ErrorBoundaryFallback from './js/generic/ErrorBoundaryFallback';
 //routes
-import { routes } from './js/routing/routingConstants/RoutesConfig';
+import {
+	routes,
+	privateRoutes,
+	authenticationRoutes,
+} from './js/routing/routingConstants/RoutesConfig';
+//route guards
+import PrivateRoute from './js/routing/guards/PrivateRoute';
+import AuthenticationRoute from './js/routing/guards/AuthenticationRoute';
 import { getHomePageUrl } from './js/routing/routingConstants/AppUrls';
 //containers
 import Header from './js/containers/Header';
@@ -30,7 +37,22 @@ const App = () => (
 						))}
 				</Route>
 			))}
-			<Route path="*" element={<p>Page not found</p>} />
+			{authenticationRoutes.map((el) => (
+				<Route
+					key={el.path}
+					path={el.path}
+					element={<AuthenticationRoute>{el.element}</AuthenticationRoute>}
+				/>
+			))}
+			{privateRoutes.map((el) => (
+				<Route key={el.path} path={el.path} element={<PrivateRoute>{el.element}</PrivateRoute>}>
+					{el.children &&
+						el.children.map((innerEl) => (
+							<Route key={innerEl.path} path={innerEl.path} element={innerEl.element} />
+						))}
+				</Route>
+			))}
+			<Route path="*" element={<p style={{ color: 'red' }}>Page not found</p>} />
 		</Routes>
 	</ErrorBoundary>
 );
