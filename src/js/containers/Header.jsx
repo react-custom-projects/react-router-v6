@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //routes
 import { getHomePageUrl, getLoginPageUrl } from '../routing/routingConstants/AppUrls';
@@ -15,12 +15,17 @@ import { getAppIsLoggedIn } from '../store/app/selectors/AppSelectors';
 const Header = () => {
 	const dispatch = useDispatch(),
 		isLoggedIn = useSelector((state) => getAppIsLoggedIn({ state })),
+		location = useLocation(),
 		navigate = useNavigate();
 
 	const loginHandler = () => {
 		dispatch(
 			logUserIn(() => {
-				navigate(getHomePageUrl(), { replace: true });
+				if (location?.state?.from?.pathname) {
+					navigate(location.state.from.pathname, { replace: true });
+				} else {
+					navigate(getHomePageUrl(), { replace: true });
+				}
 			})
 		);
 	};
