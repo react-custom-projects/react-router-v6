@@ -4,6 +4,9 @@ import { hot } from 'react-hot-loader/root';
 import { ErrorBoundary } from 'react-error-boundary';
 //error boundary fallback
 import ErrorBoundaryFallback from './js/generic/ErrorBoundaryFallback';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { getHomePageUrl } from './js/routing/routingConstants/AppUrls';
+import { routes } from './js/routing/routingConstants/RoutesConfig';
 
 const App = () => (
 	<ErrorBoundary
@@ -13,7 +16,18 @@ const App = () => (
 			console.log('Try again clicked');
 		}}
 	>
-		react router dom v6
+		<Routes>
+			<Route path="/" element={<Navigate to={getHomePageUrl()} />} />
+			{routes.map((el) => (
+				<Route key={el.path} path={el.path} element={el.element}>
+					{el.children &&
+						el.children.map((innerEl) => (
+							<Route key={innerEl.path} path={innerEl.path} element={innerEl.element} />
+						))}
+				</Route>
+			))}
+			<Route path="*" element={<p>Page not found</p>} />
+		</Routes>
 	</ErrorBoundary>
 );
 
