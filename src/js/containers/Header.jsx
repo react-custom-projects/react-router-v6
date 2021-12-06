@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //routes
@@ -46,26 +46,33 @@ const Header = () => {
 
 	return (
 		<header className="header">
-			{headerLinks.map((el) => (
-				<Fragment key={el.path}>
-					{((el.isAuth && isLoggedIn) || !el.isAuth) && (
-						<>
-							{el.permissions ? (
-								<RestrictedSection requiredPermissions={el.permissions}>
-									{renderLink({ to: el.path, label: el.label })}
-								</RestrictedSection>
-							) : (
-								renderLink({ to: el.path, label: el.label })
+			<nav>
+				<ul>
+					{headerLinks.map((el) => (
+						<li key={el.path}>
+							{((el.isAuth && isLoggedIn) || !el.isAuth) && (
+								<>
+									{el.permissions ? (
+										<RestrictedSection requiredPermissions={el.permissions}>
+											{renderLink({ to: el.path, label: el.label })}
+										</RestrictedSection>
+									) : (
+										renderLink({ to: el.path, label: el.label })
+									)}
+								</>
 							)}
-						</>
-					)}
-				</Fragment>
-			))}
-			{isLoggedIn ? (
-				<button onClick={logoutHandler}>Logout</button>
-			) : (
-				<button onClick={loginHandler}>Login</button>
-			)}
+						</li>
+					))}
+					<li className="spacer" />
+					<li>
+						{isLoggedIn ? (
+							<button onClick={logoutHandler}>Logout</button>
+						) : (
+							<button onClick={loginHandler}>Login</button>
+						)}
+					</li>
+				</ul>
+			</nav>
 		</header>
 	);
 };
