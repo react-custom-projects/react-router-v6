@@ -1,12 +1,9 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy } from 'react';
 import { hot } from 'react-hot-loader/root';
 //error boundary
 import { ErrorBoundary } from 'react-error-boundary';
 //error boundary fallback
 import ErrorBoundaryFallback from './js/generic/ErrorBoundaryFallback';
-//components
-import LoadingIcon from './js/components/shared/LoadingIcon';
-const TestComponent = lazy(() => import('./js/containers/TestComponent'));
 
 const App = () => (
 	<ErrorBoundary
@@ -16,15 +13,7 @@ const App = () => (
 			console.log('Try again clicked');
 		}}
 	>
-		<Suspense
-			fallback={
-				<div className="loader-wrapper">
-					<LoadingIcon />
-				</div>
-			}
-		>
-			<TestComponent />
-		</Suspense>
+		react router dom v6
 	</ErrorBoundary>
 );
 
