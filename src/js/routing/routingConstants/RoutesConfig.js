@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 //urls
 import {
 	getAboutPageUrl,
@@ -9,12 +9,13 @@ import {
 	getUserPageUrl,
 } from './AppUrls';
 //pages
-import AboutPage from '../../containers/pages/AboutPage';
+const AboutPage = lazy(() => import('../../containers/pages/AboutPage'));
 import HomePage from '../../containers/pages/HomePage';
 import ProductPage from '../../containers/pages/ProductPage';
 import ProductsPage from '../../containers/pages/ProductsPage';
 import UserPage from '../../containers/pages/UserPage';
 import LoginPage from '../../containers/pages/LoginPage';
+import LoadingIcon from './../../components/shared/LoadingIcon';
 
 //isAuth is used to render links if user is logged in
 export const headerLinks = [
@@ -32,7 +33,23 @@ export const headerLinks = [
 
 export const authenticationRoutes = [{ path: getLoginPageUrl(), element: <LoginPage /> }];
 
-export const routes = [{ path: getAboutPageUrl(), element: <AboutPage />, label: 'About' }];
+export const routes = [
+	{
+		path: getAboutPageUrl(),
+		element: (
+			<Suspense
+				fallback={
+					<div className="loader-wrapper">
+						<LoadingIcon />
+					</div>
+				}
+			>
+				<AboutPage />
+			</Suspense>
+		),
+		label: 'About',
+	},
+];
 
 export const privateRoutes = [
 	{ path: getHomePageUrl(), element: <HomePage />, label: 'Home', permissions: 'access_home' },
