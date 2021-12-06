@@ -4,11 +4,13 @@ import { useLocation, Navigate } from 'react-router-dom';
 import LocalStorageManager from '../../managers/LocalStorageManger';
 //routes
 import { getLoginPageUrl } from '../routingConstants/AppUrls';
+//constants
+import { localStorageKeys } from './../../constants/Constants';
 
 const PrivateRoute = ({ children }) => {
 	const location = useLocation();
 
-	if (LocalStorageManager.getItem('token')) {
+	if (LocalStorageManager.getItem(localStorageKeys.token)) {
 		return children;
 	}
 

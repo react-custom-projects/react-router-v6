@@ -8,6 +8,8 @@ import LocalStorageManager from '../../managers/LocalStorageManger';
 import { getAppUserPermissionsList } from '../../store/app/selectors/AppSelectors';
 //routes
 import { getLoginPageUrl } from '../routingConstants/AppUrls';
+//constants
+import { localStorageKeys } from './../../constants/Constants';
 //components
 import PermissionsCannotAccess from '../routingComponents/PermissionsCannotAccess';
 
@@ -15,7 +17,7 @@ const RestrictedRoute = ({ children, requiredPermissions }) => {
 	const userPermissionsList = useSelector((state) => getAppUserPermissionsList({ state })),
 		location = useLocation();
 
-	if (LocalStorageManager.getItem('token')) {
+	if (LocalStorageManager.getItem(localStorageKeys.token)) {
 		if (Array.isArray(requiredPermissions)) {
 			for (let i = 0; i < requiredPermissions.length; i++) {
 				for (let j = 0; j < userPermissionsList.length; j++) {
