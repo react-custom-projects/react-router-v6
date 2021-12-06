@@ -14,11 +14,10 @@ const LoginPage = () => {
 	const loginHandler = () => {
 		dispatch(
 			logUserIn(() => {
-				if (location?.state?.from?.pathname) {
-					navigate(location.state.from.pathname, { replace: true });
-				} else {
-					navigate(getHomePageUrl(), { replace: true });
-				}
+				navigate(
+					location?.state?.from?.pathname ? location.state.from.pathname : getHomePageUrl(),
+					{ replace: true }
+				);
 			})
 		);
 	};
