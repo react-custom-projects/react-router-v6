@@ -19,7 +19,7 @@ import LoginPage from '../../containers/pages/LoginPage';
 //isAuth is used to render links if user is logged in
 export const headerLinks = [
 	{ path: getHomePageUrl(), label: 'Home', permissions: 'access_home', isAuth: true },
-	{ path: getAboutPageUrl(), label: 'About', isAuth: false },
+	{ path: getAboutPageUrl(), label: 'About', isNeutral: true },
 	{ path: getUserPageUrl(), label: 'User', permissions: 'access_user', isAuth: true },
 	{
 		path: getProductsPageUrl(),
@@ -27,6 +27,7 @@ export const headerLinks = [
 		permissions: 'access_products',
 		isAuth: true,
 	},
+	{ path: getLoginPageUrl(), label: 'Login', isAuth: false },
 ];
 
 export const authenticationRoutes = [{ path: getLoginPageUrl(), element: <LoginPage /> }];
