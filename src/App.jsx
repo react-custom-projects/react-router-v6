@@ -1,12 +1,15 @@
-import React, { lazy } from 'react';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
 //error boundary
 import { ErrorBoundary } from 'react-error-boundary';
 //error boundary fallback
 import ErrorBoundaryFallback from './js/generic/ErrorBoundaryFallback';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { getHomePageUrl } from './js/routing/routingConstants/AppUrls';
+//routes
 import { routes } from './js/routing/routingConstants/RoutesConfig';
+import { getHomePageUrl } from './js/routing/routingConstants/AppUrls';
+//containers
+import Header from './js/containers/Header';
 
 const App = () => (
 	<ErrorBoundary
@@ -16,6 +19,7 @@ const App = () => (
 			console.log('Try again clicked');
 		}}
 	>
+		<Header />
 		<Routes>
 			<Route path="/" element={<Navigate to={getHomePageUrl()} />} />
 			{routes.map((el) => (

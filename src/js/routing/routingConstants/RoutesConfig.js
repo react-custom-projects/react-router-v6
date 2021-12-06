@@ -15,12 +15,13 @@ import ProductsPage from '../../containers/pages/ProductsPage';
 import UserPage from '../../containers/pages/UserPage';
 
 export const routes = [
-	{ path: getHomePageUrl(), element: <HomePage /> },
-	{ path: getAboutPageUrl(), element: <AboutPage /> },
-	{ path: getUserPageUrl(), element: <UserPage /> },
+	{ path: getHomePageUrl(), element: <HomePage />, label: 'Home' },
+	{ path: getAboutPageUrl(), element: <AboutPage />, label: 'About' },
+	{ path: getUserPageUrl(), element: <UserPage />, label: 'User' },
 	{
 		path: getProductsPageUrl(),
 		element: <ProductsPage />,
+		label: 'Products',
 		children: [{ path: getProductPageUrl(), element: <ProductPage /> }],
 	},
 ];
