@@ -16,13 +16,15 @@ import ProductsPage from '../../containers/pages/ProductsPage';
 import UserPage from '../../containers/pages/UserPage';
 import LoginPage from '../../containers/pages/LoginPage';
 
+//isAuth is used to render links if user is logged in
 export const headerLinks = [
-	{ path: getHomePageUrl(), label: 'Home', isAuth: true },
+	{ path: getHomePageUrl(), label: 'Home', permissions: 'access_home', isAuth: true },
 	{ path: getAboutPageUrl(), label: 'About', isAuth: false },
-	{ path: getUserPageUrl(), label: 'User', isAuth: true },
+	{ path: getUserPageUrl(), label: 'User', permissions: 'access_user', isAuth: true },
 	{
 		path: getProductsPageUrl(),
 		label: 'Products',
+		permissions: 'access_products',
 		isAuth: true,
 	},
 ];
@@ -32,12 +34,13 @@ export const authenticationRoutes = [{ path: getLoginPageUrl(), element: <LoginP
 export const routes = [{ path: getAboutPageUrl(), element: <AboutPage />, label: 'About' }];
 
 export const privateRoutes = [
-	{ path: getHomePageUrl(), element: <HomePage />, label: 'Home' },
-	{ path: getUserPageUrl(), element: <UserPage />, label: 'User' },
+	{ path: getHomePageUrl(), element: <HomePage />, label: 'Home', permissions: 'access_home' },
+	{ path: getUserPageUrl(), element: <UserPage />, label: 'User', permissions: 'access_user' },
 	{
 		path: getProductsPageUrl(),
 		element: <ProductsPage />,
 		label: 'Products',
+		permissions: 'access_products',
 		children: [{ path: getProductPageUrl(), element: <ProductPage /> }],
 	},
 ];

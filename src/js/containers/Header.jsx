@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHomePageUrl, getLoginPageUrl } from '../routing/routingConstants/AppUrls';
 //routes config
 import { headerLinks } from '../routing/routingConstants/RoutesConfig';
+//routes components
+import RestrictedSection from '../routing/routingComponents/RestrictedSection';
 //actions
 import { logUserIn, logUserOut } from '../store/app/actions/AppActions';
 //selectors
@@ -31,14 +33,26 @@ const Header = () => {
 		);
 	};
 
+	const renderLink = ({ to, label }) => (
+		<NavLink to={to} className={(navData) => (navData.isActive ? 'active' : '')}>
+			{label}
+		</NavLink>
+	);
+
 	return (
 		<header className="header">
 			{headerLinks.map((el) => (
 				<Fragment key={el.path}>
 					{((el.isAuth && isLoggedIn) || !el.isAuth) && (
-						<NavLink to={el.path} className={(navData) => (navData.isActive ? 'active' : '')}>
-							{el.label}
-						</NavLink>
+						<>
+							{el.permissions ? (
+								<RestrictedSection requiredPermissions={el.permissions}>
+									{renderLink({ to: el.path, label: el.label })}
+								</RestrictedSection>
+							) : (
+								renderLink({ to: el.path, label: el.label })
+							)}
+						</>
 					)}
 				</Fragment>
 			))}

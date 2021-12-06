@@ -6,6 +6,7 @@ import LocalStorageManager from './../../../managers/LocalStorageManger';
 
 const initialState = {
 	isLoggedIn: LocalStorageManager.getItem('token') !== null,
+	userPermissionsList: ['access_home', 'access_user', 'access_products', 'add_product'],
 };
 
 const reducer = (state = initialState, action) => {

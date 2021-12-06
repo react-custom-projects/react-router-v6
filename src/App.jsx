@@ -13,6 +13,7 @@ import {
 } from './js/routing/routingConstants/RoutesConfig';
 //route guards
 import PrivateRoute from './js/routing/guards/PrivateRoute';
+import RestrictedRoute from './js/routing/guards/RistrictedRoute';
 import AuthenticationRoute from './js/routing/guards/AuthenticationRoute';
 import { getHomePageUrl } from './js/routing/routingConstants/AppUrls';
 //containers
@@ -44,8 +45,24 @@ const App = () => (
 					element={<AuthenticationRoute>{el.element}</AuthenticationRoute>}
 				/>
 			))}
-			{privateRoutes.map((el) => (
+			{/* example of private routes (needs token only to access) */}
+			{/* {privateRoutes.map((el) => (
 				<Route key={el.path} path={el.path} element={<PrivateRoute>{el.element}</PrivateRoute>}>
+					{el.children &&
+						el.children.map((innerEl) => (
+							<Route key={innerEl.path} path={innerEl.path} element={innerEl.element} />
+						))}
+				</Route>
+			))} */}
+			{/* example of restricted routes (needs token and permission/s to access) */}
+			{privateRoutes.map((el) => (
+				<Route
+					key={el.path}
+					path={el.path}
+					element={
+						<RestrictedRoute requiredPermissions={el.permissions}>{el.element}</RestrictedRoute>
+					}
+				>
 					{el.children &&
 						el.children.map((innerEl) => (
 							<Route key={innerEl.path} path={innerEl.path} element={innerEl.element} />

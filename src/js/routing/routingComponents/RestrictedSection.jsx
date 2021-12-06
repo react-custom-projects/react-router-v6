@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-//replace the following with your own selector
-import { getUserPermissionsList } from '../../store/app/selectors/AppSelectors';
+//selectors
+import { getAppUserPermissionsList } from '../../store/app/selectors/AppSelectors';
 
 const RestrictedSection = ({ requiredPermissions, children }) => {
-	const userPermissionsList = useSelector((state) => getUserPermissionsList({ state }));
+	const userPermissionsList = useSelector((state) => getAppUserPermissionsList({ state }));
 
 	if (Array.isArray(requiredPermissions)) {
 		for (let i = 0; i < requiredPermissions.length; i++) {

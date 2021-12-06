@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
 //managers
 import LocalStorageManager from '../../managers/LocalStorageManger';
+//selectors
+import { getAppUserPermissionsList } from '../../store/app/selectors/AppSelectors';
+//routes
+import { getLoginPageUrl } from '../routingConstants/AppUrls';
 //components
 import PermissionsCannotAccess from '../routingComponents/PermissionsCannotAccess';
 
 const RestrictedRoute = ({ children, requiredPermissions }) => {
-	const userPermissionsList = ['access_home', 'access_user', 'access_products'],
+	const userPermissionsList = useSelector((state) => getAppUserPermissionsList({ state })),
 		location = useLocation();
 
 	if (LocalStorageManager.getItem('token')) {
